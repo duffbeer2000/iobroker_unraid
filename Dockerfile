@@ -7,17 +7,15 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y build-essential libavahi-compat-libdnssd-dev libudev-dev libpam0g-dev python apt-utils curl unzip sudo wget ffmpeg fping arp-scan nano
 #   avahi-daemon git libpcap-dev  libfontconfig gnupg2 locales procps
 
+## Install node _6.x, _8.x, _9.x for V6/8/9
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN apt-get install -y nodejs
 
 ## Sprache und Zeitzone
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \dpkg-reconfigure --frontend=noninteractive locales && \update-locale LANG=de_DE.UTF-8
 ENV LANG de_DE.UTF-8 
 RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 ENV TZ Europe/Berlin
-
-
-## Install node _6.x, _8.x, _9.x for V6/8/9
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
-RUN apt-get install -y nodejs
 
 ## Install ioBroker
 RUN curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | bash -
