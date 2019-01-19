@@ -22,17 +22,17 @@ RUN mkdir -p /opt/scripts/ && chmod 777 /opt/scripts/
 WORKDIR /opt/scripts/
 
 ADD scripts/avahi_startup.sh avahi_startup.sh
-#RUN chmod +x avahi_startup.sh
-#RUN mkdir /var/run/dbus/
-#
-#ADD scripts/iobroker_startup.sh iobroker_startup.sh
-#RUN chmod +x iobroker_startup.sh
-#
-#WORKDIR /opt/iobroker/
-#
-#RUN echo $(hostname) > .install_host && npm install iobroker --unsafe-perm && npm i --production --unsafe-perm
-#RUN update-rc.d iobroker.sh remove
-#RUN npm install node-gyp -g
+RUN chmod +x avahi_startup.sh
+RUN mkdir /var/run/dbus/
+
+ADD scripts/iobroker_startup.sh iobroker_startup.sh
+RUN chmod +x iobroker_startup.sh
+
+WORKDIR /opt/iobroker/
+
+RUN echo $(hostname) > .install_host && npm install iobroker --unsafe-perm && npm i --production --unsafe-perm
+RUN update-rc.d iobroker.sh remove
+RUN npm install node-gyp -g
 #
 #CMD ["sh", "/opt/scripts/iobroker_startup.sh"]
 #
