@@ -7,25 +7,29 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y build-essential libavahi-compat-libdnssd-dev libudev-dev libpam0g-dev python apt-utils curl unzip sudo wget ffmpeg fping arp-scan nano
 #   avahi-daemon git libpcap-dev  libfontconfig gnupg2 locales procps
 
-## _6.x, _8.x, _9.x for V6/8/9
+
+## Sprache und Zeitzone
+RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \dpkg-reconfigure --frontend=noninteractive locales && \update-locale LANG=de_DE.UTF-8
+ENV LANG de_DE.UTF-8 
+RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+ENV TZ Europe/Berlin
+
+
+## Install node _6.x, _8.x, _9.x for V6/8/9
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get install -y nodejs
 
-ENV DEBIAN_FRONTEND teletype
+## Install ioBroker
+curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | bash -
 
 
+EXPOSE 8081
+EXPOSE 8082
+EXPOSE 8083
+EXPOSE 8084
 
-#RUN apt-get update && apt-get install -y build-essential python apt-utils curl avahi-daemon git libpcap-dev libavahi-compat-libdnssd-dev libfontconfig gnupg2 locales procps libudev-dev libpam0g-dev unzip sudo wget ffmpeg fping arp-scan nano
-#
-## _6.x, _8.x, _9.x for V6/8/9
-#RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
-#RUN apt-get install -y nodejs
 #
 #RUN sed -i '/^rlimit-nproc/s/^\(.*\)/#\1/g' /etc/avahi/avahi-daemon.conf
-#RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \dpkg-reconfigure --frontend=noninteractive locales && \update-locale LANG=de_DE.UTF-8
-#ENV LANG de_DE.UTF-8 
-#RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-#ENV TZ Europe/Berlin
 #
 #RUN mkdir -p /opt/iobroker/ && chmod 777 /opt/iobroker/
 #RUN mkdir -p /opt/scripts/ && chmod 777 /opt/scripts/
