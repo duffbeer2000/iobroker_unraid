@@ -5,8 +5,7 @@ MAINTAINER Christian Schwarz
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y build-essential python apt-utils curl avahi-daemon git libpcap-dev libavahi-compat-libdnssd-dev libfontconfig gnupg2 locales procps libudev-dev libpam0g-dev unzip sudo wget ffmpeg android-tools-adb android-tools-fastboot
-RUN apt-get install fping 
-#RUN apt-get install arp-scan
+RUN apt-get install -y fping arp-scan
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get install -y nodejs
@@ -37,4 +36,4 @@ RUN apt-get install -y nodejs
 #
 #CMD ["sh", "/opt/scripts/iobroker_startup.sh"]
 #
-#ENV DEBIAN_FRONTEND teletype
+ENV DEBIAN_FRONTEND teletype
