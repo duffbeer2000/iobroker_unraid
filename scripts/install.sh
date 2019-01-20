@@ -97,21 +97,21 @@ cd /opt/iobroker
 echo "Installer version: $INSTALLER_VERSION" >> INSTALLER_INFO.txt
 echo "Installation date $(date +%F)" >> INSTALLER_INFO.txt
 
-## suppress messages with manual installation steps
-#touch AUTOMATED_INSTALLER
-#
-#print_step "Downloading installation files" 3 "$NUM_STEPS"
-#
-## download the installer files and run them
-## If this script is run as root, we need the --unsafe-perm option
-#if [ "$IS_ROOT" = true ]; then
-#	echo "Installed as root" >> INSTALLER_INFO.txt
-#	npm i iobroker --loglevel error --unsafe-perm
-#else
-#	echo "Installed as non-root user $USER" >> INSTALLER_INFO.txt
-#	npm i iobroker --loglevel error
-#fi
-#
+# suppress messages with manual installation steps
+touch AUTOMATED_INSTALLER
+
+print_step "Downloading installation files" 3 "$NUM_STEPS"
+
+# download the installer files and run them
+# If this script is run as root, we need the --unsafe-perm option
+if [ "$IS_ROOT" = true ]; then
+	echo "Installed as root" >> INSTALLER_INFO.txt
+	npm i iobroker --loglevel error --unsafe-perm
+else
+	echo "Installed as non-root user $USER" >> INSTALLER_INFO.txt
+	npm i iobroker --loglevel error
+fi
+
 #print_step "Installing ioBroker" 4 "$NUM_STEPS"
 #
 ## TODO: GH#48 Make sure we don't need sudo/root, so we can remove that and --unsafe-perm
