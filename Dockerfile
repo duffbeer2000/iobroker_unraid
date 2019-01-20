@@ -52,6 +52,7 @@ RUN chmod +x install.sh
 #RUN curl -sL /opt/scripts/install.sh | bash -
 RUN /opt/scripts/install.sh
 
+WORKDIR /opt/iobroker/
 ADD scripts/run.sh run.sh
 RUN chmod +x run.sh
 VOLUME /opt/iobroker/
