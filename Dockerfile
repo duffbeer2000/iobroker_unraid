@@ -1,5 +1,5 @@
-#FROM debian:latest
-FROM debian:stable-slim
+FROM debian:latest
+#FROM debian:stable-slim
 
 MAINTAINER Christian Schwarz
 
