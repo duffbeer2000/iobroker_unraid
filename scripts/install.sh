@@ -112,23 +112,23 @@ else
 	npm i iobroker --loglevel error
 fi
 
-#print_step "Installing ioBroker" 4 "$NUM_STEPS"
-#
-## TODO: GH#48 Make sure we don't need sudo/root, so we can remove that and --unsafe-perm
-## For now we need to run the 2nd part of the installation as root
-#if [ "$IS_ROOT" = true ]; then
-#	npm i --production --unsafe-perm
-#else
-#	sudo -H npm i --production --unsafe-perm
-#fi
-## npm i --production # this is how it should be
-#
-#print_step "Finalizing installation" 5 "$NUM_STEPS"
-#
-## Remove the file we used to suppress messages during installation
-#rm AUTOMATED_INSTALLER
-#
-## If we want to autostart ioBroker with systemd, enable that
+print_step "Installing ioBroker" 4 "$NUM_STEPS"
+
+# TODO: GH#48 Make sure we don't need sudo/root, so we can remove that and --unsafe-perm
+# For now we need to run the 2nd part of the installation as root
+if [ "$IS_ROOT" = true ]; then
+	npm i --production --unsafe-perm
+else
+	sudo -H npm i --production --unsafe-perm
+fi
+# npm i --production # this is how it should be
+
+print_step "Finalizing installation" 5 "$NUM_STEPS"
+
+# Remove the file we used to suppress messages during installation
+rm AUTOMATED_INSTALLER
+
+# If we want to autostart ioBroker with systemd, enable that
 #if [ -f /lib/systemd/system/iobroker.service ]; then
 #	# systemd executes js-controller as the user "iobroker", 
 #	# so we need to give it the ownershop of /opt/iobroker
