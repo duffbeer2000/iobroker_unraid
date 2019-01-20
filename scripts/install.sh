@@ -77,9 +77,9 @@ dpkg -s acl &> /dev/null
 if [ $? -ne 0 ]; then
 	# Install acl, so we can use setfacl
 	if [ "$IS_ROOT" = true ]; then
-		apt install -y acl
+		apt-get update && apt install -y acl && rm -rf /var/lib/apt/lists/*
 	else
-		sudo apt install -y acl
+		sudo apt-get update && sudo apt install -y acl && rm -rf /var/lib/apt/lists/*
 	fi
 fi
 

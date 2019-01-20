@@ -5,35 +5,35 @@ MAINTAINER Christian Schwarz
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y apt-utils
-
-RUN apt-get update \
-  && apt-get install -y \
+RUN apt-get update && apt-get install -y \
+    acl \
+    apt-utils \
+    arp-scan \
     build-essential \
-    libavahi-compat-libdnssd-dev \
-    libudev-dev \
-    libpam0g-dev \
-    python \
     curl \
-    unzip \
-    sudo \
-    wget \
     ffmpeg \
     fping \
-    arp-scan \
-    nano \
-    locales \
     git \
-    libpcap-dev \
-    libfontconfig \
     gnupg2 \
+    libavahi-compat-libdnssd-dev \
+    libfontconfig \
+    libpcap-dev \
+    libpam0g-dev \
+    libudev-dev \
+    locales \
+    nano \
+    net-tools \
     procps \
-    acl \
-	net-tools
+    python \
+    sudo \
+    unzip \
+    wget
+ && rm -rf /var/lib/apt/lists/*
 
 #Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
-RUN apt-get install -y nodejs
+RUN apt-get update && apt-get install -y nodejs \
+ && rm -rf /var/lib/apt/lists/*
 
 ## Sprache und Zeitzone
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \dpkg-reconfigure --frontend=noninteractive locales && \update-locale LANG=de_DE.UTF-8
@@ -45,20 +45,25 @@ ENV TZ Europe/Berlin
 RUN sudo mkdir -p /opt/iobroker && chmod 777 /opt/iobroker/
 RUN sudo mkdir -p /opt/scripts && chmod 777 /opt/scripts/
 
+## Bereite die Installation vor
 WORKDIR /opt/scripts/
 ADD scripts/install.sh install.sh
 RUN chmod +x install.sh
 
-#RUN curl -sL /opt/scripts/install.sh | bash -
+## Installieren von ioBroker
 RUN /opt/scripts/install.sh
 
+## Startscript installieren
 WORKDIR /opt/iobroker/
 ADD scripts/run.sh run.sh
 RUN chmod +x run.sh
 VOLUME /opt/iobroker/
 
 EXPOSE 8081 8082 8083 8084
-CMD /opt/iobroker/run.sh
+
+ENV DEBIAN_FRONTEND teletype
+
+CMD ["sh", "/opt/iobroker/run.sh"]
 
 
 #FROM mhart/alpine-node:8
