@@ -28,7 +28,8 @@ RUN apt-get update \
     libfontconfig \
     gnupg2 \
     procps \
-    acl
+    acl \
+	net-tools
 
 #Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
@@ -51,8 +52,12 @@ RUN chmod +x install.sh
 #RUN curl -sL /opt/scripts/install.sh | bash -
 RUN /opt/scripts/install.sh
 
-EXPOSE 8081 8082 8083 8084
+ADD scripts/run.sh run.sh
+RUN chmod +x run.sh
+VOLUME /opt/iobroker/
 
+EXPOSE 8081 8082 8083 8084
+CMD /opt/iobroker/run.sh
 
 
 #FROM mhart/alpine-node:8

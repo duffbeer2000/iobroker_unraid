@@ -117,9 +117,9 @@ print_step "Installing ioBroker" 4 "$NUM_STEPS"
 # TODO: GH#48 Make sure we don't need sudo/root, so we can remove that and --unsafe-perm
 # For now we need to run the 2nd part of the installation as root
 if [ "$IS_ROOT" = true ]; then
-	npm i --production --unsafe-perm
+	npm i --production --unsafe-perm && echo $(hostname) > .install_host
 else
-	sudo -H npm i --production --unsafe-perm
+	sudo -H npm i --production --unsafe-perm && echo $(hostname) > .install_host
 fi
 # npm i --production # this is how it should be
 
