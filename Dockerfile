@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
     python \
     sudo \
     unzip \
-    wget
+    wget \
  && rm -rf /var/lib/apt/lists/*
 
 #Install NodeJS
@@ -59,11 +59,17 @@ ADD scripts/run.sh run.sh
 RUN chmod +x run.sh
 VOLUME /opt/iobroker/
 
+RUN npm install node-gyp -g
+RUN update-rc.d iobroker.sh remove
+
 EXPOSE 8081 8082 8083 8084
 
 ENV DEBIAN_FRONTEND teletype
 
 CMD ["sh", "/opt/iobroker/run.sh"]
+
+#ENTRYPOINT ["./run.sh"]
+#CMD ["sh"]
 
 
 #FROM mhart/alpine-node:8
