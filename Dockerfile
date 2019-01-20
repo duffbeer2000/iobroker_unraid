@@ -49,7 +49,7 @@ ADD scripts/install.sh install.sh
 RUN chmod +x install.sh
 
 #RUN curl -sL /opt/scripts/install.sh | bash -
-CMD /opt/scripts/install.sh
+RUN /opt/scripts/install.sh
 
 EXPOSE 8081 8082 8083 8084
 
